@@ -14,6 +14,7 @@ Set OPENROUTER_API_KEY in .env to use any supported model.
 from typing import Optional, Any
 import os
 from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 
 from context_engineering.config import (
     PROVIDER,
@@ -81,8 +82,8 @@ def get_chat_llm(
     # Get API key
     api_key = get_api_key(use_provider)
     if not api_key:
-        # Fallback to OPENAI_API_KEY for backward compatibility
-        api_key = os.getenv("OPENAI_API_KEY")
+        # Fallback to GROQ_API_KEY for backward compatibility
+        api_key = os.getenv("GROQ_API_KEY")
     
     # Set defaults
     use_temperature = temperature if temperature is not None else LLM_TEMPERATURE
