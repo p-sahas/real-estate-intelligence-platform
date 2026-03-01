@@ -39,12 +39,22 @@ class PrimeLandWebCrawler:
         documents = crawler.crawl(start_urls)
     """
     
-    def __init__(self, base_url: str, max_depth: int, exclude_patterns: List[str]):
+    def __init__(self, base_url: str, max_depth: int, exclude_patterns: List[str], include_patterns: List[str] = None):
         self.base_url = base_url
         self.max_depth = max_depth
         self.exclude_patterns = exclude_patterns
+        self.include_patterns = include_patterns or []
         self.visited: Set[str] = set()
         self.documents: List[Dict[str, Any]] = []
+    
+    def should_save(self, url: str) -> bool:
+        """Check if URL matches include patterns for saving."""
+        if not self.include_patterns:
+            return True
+        for pattern in self.include_patterns:
+            if re.search(pattern, url, re.I):
+                return True
+        return False
     
     def should_crawl(self, url: str) -> bool:
         """Check if URL should be crawled based on rules."""
@@ -76,13 +86,32 @@ class PrimeLandWebCrawler:
         - content: Clean markdown
         - links: List of internal URLs
         """
+        # Remove noisy elements by CSS class/ID
+        for class_name in ['header', 'footer', 'nav', 'menu', 'sidebar']:
+            for element in soup.find_all(class_=re.compile(class_name, re.I)):
+                element.decompose()
+
         # Remove noise elements
-        for element in soup(["script", "style", "nav", "footer", "aside", "noscript", "iframe"]):
+        for element in soup(["script", "style", "nav", "footer", "aside", "noscript", "iframe", "header", "button"]):
             element.decompose()
         
         # Get title
         title = soup.title.string if soup.title else url.split("/")[-1]
         title = title.strip() if title else "Untitled"
+        
+        # Extract explicit property details
+        property_details = []
+        price_tags = soup.find_all(text=re.compile(r'LKR', re.I))
+        if price_tags:
+            property_details.append(f"Price: {price_tags[0].strip()}")
+            
+        features = []
+        for li in soup.find_all('li'):
+            t = li.get_text(strip=True)
+            if re.search(r'(Bed|Bath|Perch|Area|City|District|Size)', t, re.I) and len(t) < 50:
+                features.append(t)
+        if features:
+            property_details.append(f"Details: {', '.join(list(set(features)))}")
         
         # Extract headings
         headings = [h.get_text(strip=True) for h in soup.find_all(['h1', 'h2', 'h3', 'h4'])]
@@ -107,19 +136,18 @@ class PrimeLandWebCrawler:
                 if href and href != url:
                     links.append(href)
         
-        # Find main content (try different selectors for React/SPA)
-        main_content = (
-            soup.find('div', {'id': 'root'}) or 
-            soup.find('main') or 
-            soup.find('article') or 
-            soup.find('div', {'class': re.compile('content|main|container', re.I)}) or
-            soup.body
-        )
+        # Extract the real estate specific text content into markdown
+        # Prefer main body after noisy items are filtered
+        main_content = soup.body
         
         if main_content:
             content_md = md(str(main_content), heading_style="ATX")
         else:
             content_md = md(str(soup), heading_style="ATX")
+            
+        if property_details:
+            details_md = "### Extracted Property Details\n" + "\n".join(f"- {d}" for d in property_details) + "\n\n"
+            content_md = details_md + content_md
         
         # Clean up markdown
         content_md = re.sub(r'You need to enable JavaScript.*?\.', '', content_md, flags=re.IGNORECASE)
@@ -186,8 +214,10 @@ class PrimeLandWebCrawler:
                     doc_data['url'] = url
                     doc_data['depth_level'] = depth
                     
-                    # Only save if content is substantial
-                    if len(doc_data['content']) >= 100:
+                    # Check if it should be saved based on include_patterns
+                    if not self.should_save(url):
+                        print(f"     Skipped (does not match include patterns)")
+                    elif len(doc_data['content']) >= 100:
                         self.documents.append(doc_data)
                         print(f"    Saved ({len(doc_data['content'])} chars, {len(doc_data['links'])} links found)")
                     else:
