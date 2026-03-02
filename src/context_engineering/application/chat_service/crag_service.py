@@ -166,7 +166,7 @@ class CRAGService:
         elapsed = time.time() - start
         
         # Extract evidence URLs
-        evidence_urls = list(set([doc.metadata['url'] for doc in final_docs]))
+        evidence_urls = list(set([doc.metadata.get('url', 'N/A') for doc in final_docs if doc.metadata.get('url')]))
         
         return {
             'answer': answer,
