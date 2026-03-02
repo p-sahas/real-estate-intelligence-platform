@@ -1,0 +1,21 @@
+query,initial_confidence,final_confidence,correction_triggered,confidence_improvement,docs_used,time_taken_s,answer_length
+What is the booking fee?,0.06666666666666667,0.06666666666666667,True,0.0,8,0.8364999294281006,863
+Can foreigners buy apartments?,0.06666666666666667,0.06666666666666667,True,0.0,8,2.04097580909729,932
+Where is the Regent project located?,0.06666666666666667,0.06666666666666667,True,0.0,8,2.801516056060791,648
+Do you offer 360 degree virtual tours?,0.06666666666666667,0.06666666666666667,True,0.0,8,3.027331590652466,909
+What is the 1% payment plan?,0.06666666666666667,0.06666666666666667,True,0.0,8,4.297740936279297,787
+"If I am an expat living in Dubai, what exact legal steps do I need to follow for a housing loan on a villa in Negombo?",0.06666666666666667,0.06666666666666667,True,0.0,8,2.138542413711548,1164
+Compare the defect liability period of houses versus the structural warranty of a land purchase.,0.06666666666666667,0.06666666666666667,True,0.0,8,5.249215364456177,1184
+"Which projects have both a swimming pool and close proximity to the highway, under 500,000 LKR per perch?",0.06666666666666667,0.06666666666666667,True,0.0,8,2.421123504638672,1051
+What happens to my online booking fee if my IIA account transfer fails due to bank delays?,0.06666666666666667,0.06666666666666667,True,0.0,8,3.1588168144226074,1203
+Explain the Management Corporation process for foreign buyers in off-plan apartments.,0.06666666666666667,0.06666666666666667,True,0.0,8,3.246549606323242,1116
+Is the Kings Boulevard project in Anuradhapura cleared for immediate commercial construction?,0.06666666666666667,0.06666666666666667,True,0.0,8,3.041252613067627,862
+What is the exact distance from the Denver Kahathuduwa project to the nearest bus stand?,0.06666666666666667,0.06666666666666667,True,0.0,8,3.1806042194366455,1221
+Do you build custom houses on private land not bought from Prime Group?,0.06666666666666667,0.06666666666666667,True,0.0,8,2.9722187519073486,879
+What is the Certificate of Conformity timeline for the Sunreach Matara project?,0.06666666666666667,0.06666666666666667,True,0.0,8,3.33838152885437,1177
+Can my spouse who is a non-citizen inherit a freehold title property?,0.06666666666666667,0.06666666666666667,True,0.0,8,3.4361398220062256,1101
+What is the current interest rate at Bank of Ceylon?,0.06666666666666667,0.06666666666666667,True,0.0,8,3.058896541595459,900
+How do I invest in the Sri Lankan stock market?,0.06666666666666667,0.06666666666666667,True,0.0,8,3.2415618896484375,908
+Give me the current price of gold in Sri Lanka.,0.06666666666666667,0.06666666666666667,True,0.0,8,3.0216453075408936,807
+Who is the president of Sri Lanka?,0.06666666666666667,0.06666666666666667,True,0.0,8,3.1129372119903564,735
+Write a python script to scrape Prime Lands.,0.06666666666666667,0.06666666666666667,True,0.0,8,3.0130860805511475,1074

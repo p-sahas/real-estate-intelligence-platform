@@ -1,0 +1,9 @@
+{
+    "total_queries": 100,
+    "cache_hits": 81,
+    "hit_rate_pct": 81.0,
+    "avg_latency_ms_hit": 9.92,
+    "avg_latency_ms_miss": 968.93,
+    "latency_improvement_pct": 98.97598776596625,
+    "estimated_cost_savings_usd": 0.405
+}
